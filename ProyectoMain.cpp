@@ -12,11 +12,6 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	int opc;
-//	float precio[100];
-//	struct nodo *lista = NULL;
-//	string produc[100];
-//	setlocale(LC_CTYPE, "Spanish");
-	
 	Nodo *producto = new Nodo ();
 	
 	do
@@ -68,41 +63,7 @@ int main(int argc, char** argv)
 			case 5: producto->eliminarProducto();
 					cout << "\n\t";
 					system ("pause");
-					break;
-			/*case 2: system("cls");
-					if(prod==false)
-					{
-						cout << "\a";
-						cout << "\tNo se han agregado productos para hoy, intente luego" << endl;
-					}
-					else
-					{
-						prod = reavent(produc, num, precio);
-					}
-					cout << "\t";
-					cout << "\n"; 
-					system("pause");
-					break;
-			case 3: system("cls");
-					if(prod==false)
-					{
-						cout << "\a";
-						cout << "\tNo se han agregado productos para hoy, intente luego" << endl;
-					}
-					else
-					{
-						prod = realinv(produc, precio, num);
-					}
-					cout << "\n";
-					cout << "\t"; system("pause");
-					break;
-			case 4: system("cls");
-					
-					
-					break;
-			case 10:band = true;
-					EXIT_SUCCESS;
-					break; */		
+					break;		
 		}
 	}while(opc < 13);
 	
