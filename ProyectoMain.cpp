@@ -63,9 +63,11 @@ int main(int argc, char** argv)
 			case 5: producto->eliminarProducto();
 					cout << "\n\t";
 					system ("pause");
+					break;
+			case 13: opc = 14;
 					break;		
 		}
-	}while(opc < 13);
+	}while(opc < 14);
 	
 	return 0;
 }
