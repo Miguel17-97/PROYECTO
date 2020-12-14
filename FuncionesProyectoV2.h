@@ -11,7 +11,6 @@
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 using namespace std;
 
@@ -23,110 +22,163 @@ void buscarempleados();
 class Cola
 {
 	private:
-		string empleado;
-		Cola *siguiente;
-		*primero, *cola, *ultimo;
+		string nombre;
+		string cedula;
+		Cola *sig;
+		Cola *primero;
+		Cola *ultimo;
  	public:
  		Cola();
- 		void mostrarempleados();
-		void contratarempleados();
-		void despedirempleados();
-		void buscarempleados();
+ 		void contratarEmpleado();
+ 		void mostrarEmpleado();
+ 		void buscarEmpleado();
+		void despedirEmpleado();
 		~Cola();
 };
 
-Cola::Cola()
+Cola :: Cola()
 {
-	empleado = " ";
+	nombre = " ";
 	primero = NULL;
 	ultimo = NULL;
-	siguiente = NULL;
-	cola = NULL;
+	sig = NULL;
 }
 
-
-void Cola::contratarempleados()
+void Cola :: contratarEmpleado()
 {
-	Cola *nuevo = new Cola();
-	cout << "Ingrese el nombre del empleado" <<endl;
-	cin >> nuevo -> empleado;
+	Cola *nuevo_empleado = new Cola();
+	cout << "\n\t Ingrese el nombre del empleado: ";
+	cin >> nuevo_empleado->nombre;
+
+	cout << "\n\t Ingrese la cedula del empleado: ";
+	cin >> nuevo_empleado->cedula;
 	
-	if(ultimo != NULL)
-	{
-		ultimo -> siguiente = cola;
-		nuevo -> siguiente = NULL;
-		ultimo = nuevo;
-		cout<<"Empleado contratado! "<<endl;
-	
-	}
-	else{
-		primero = ultimo = nuevo;
-		cout << "primer empleado contratado"<<endl;
-		cout << primero << " " << ultimo << " " << cola << endl;
-	}
-		cout << ultimo -> siguiente << " " << nuevo -> siguiente << endl;
-}
-void Cola::mostrarempleados()
-{
-	if(ultimo == NULL)
-	{
-		cout << "No hay empleados hoy" << endl;
-		return;
-	}
-	nuevo = primero;
-	cout << "Los empleado son " << endl;
-	while(nuevo != NULL)
-	{
-		cout << nuevo -> empleado << endl;
-		nuevo = nuevo -> siguiente;
-
-	}
-}
-
-void despedirempleados()
-{
-	if(primero != NULL)
-	{
-		nuevo = primero;
-		cout << "Despedido " << primero -> empleado << endl;
-		primero = nuevo -> siguiente;
-		delete(nuevo);
-		if(primero == NULL)
-		{
-			nuevo = NULL;
-			ultimo = NULL;
-		}
-	}
-	else{
-		cout << "No hay empleado" << endl;
-	}
-}
-void Cola::buscarempleados()
-{
 	if(primero == NULL)
 	{
-		cout << "No hay empleados" << endl;
-		return;
+		primero = nuevo_empleado;
+		ultimo = primero;
 	}
-	nuevo = primero;
-	bool encontrado = false;
-	string buscaremp;
-	cout << "Ingrese el empleado a buscar" << endl;
-	cin >> buscaremp;
-	while(cola != NULL){
-		if(buscaremp==nuevo->dato)
-		{
-			cout << "Encontrado, el empleado es: " << cola->dato << endl;
-			encontrado = true;
-			break;
-		}
-		nuevo = nuevo -> siguiente;
-	}
-	if(encontrado == false)
+	else
 	{
-		cout << "No se encontro el empleado" << endl;
+		ultimo->sig = nuevo_empleado;
+		nuevo_empleado->sig = NULL;
+		ultimo = nuevo_empleado;
 	}
+	
+	cout << "\n\t Empleado contratado.\t" << endl;
+}
 
+void Cola :: mostrarEmpleado()
+{
+	Cola *recorrer = new Cola();
+	recorrer = primero;
+	
+	if(primero != NULL)
+	{
+		while(recorrer != NULL)
+		{
+			fflush(stdin);
+			cout << "\n\t   " << recorrer->nombre << " Identificado con C.C: " << recorrer->cedula;
+			recorrer = recorrer->sig;
+		}
+	}
+	else
+	{
+		cout << "\n\t No hay empleados en la lista." << endl;
+	}
+}
+
+void Cola :: buscarEmpleado()
+{
+	Cola *recorrer = new Cola();
+	recorrer = primero;
+	string buscando_e = " ";
+	bool encontrado = false;
+	
+	cout << "\n\t Ingrese el nombre del empleado a buscar: ";
+	fflush(stdin);
+	cin >> buscando_e;
+	fflush(stdin);
+	
+	if(primero != NULL)
+	{
+		while(recorrer != NULL && encontrado != true)
+		{
+			if (recorrer->nombre == buscando_e)
+			{
+				encontrado = true;
+				cout << "\n\t   " << recorrer->nombre << " Identificado con C.C: " << recorrer->cedula;
+				fflush(stdin);
+			}
+			
+			recorrer = recorrer->sig;
+		}
+		
+		if(encontrado == false)
+		{
+			cout << "\n\t No se encuentra el empleado en la lista." << endl;
+		}
+	}
+	else
+	{
+		cout << "\n\t No hay empleados en la lista." << endl;
+	}
+}
+
+void Cola :: despedirEmpleado()
+{
+	Cola *recorrer = new Cola();
+	Cola *anterior = new Cola();
+	anterior = NULL;
+	recorrer = primero;
+	string buscando_e = " ";
+	bool encontrado = false;
+	
+	cout << "\n\t Ingrese el nombre del empleado a buscar para despedirlo: ";
+	fflush(stdin);
+	cin >> buscando_e;
+	fflush(stdin);
+	
+	if(primero != NULL)
+	{
+		while(recorrer != NULL && encontrado != true)
+		{
+			if (recorrer->nombre == buscando_e)
+			{
+				encontrado = true;
+				cout << "\n\t   " << recorrer->nombre << " Identificado con C.C: " << recorrer->cedula;
+				fflush(stdin);
+				
+				if (recorrer == primero)
+				{
+					primero = primero->sig;
+				}
+				else if (recorrer == ultimo)
+				{
+					anterior->sig = NULL;
+					ultimo = anterior;
+				}
+				else
+				{
+					anterior->sig = recorrer->sig;
+				}
+				
+				cout << "\n\t Empleado despedido." << endl;
+			}
+			
+			anterior = recorrer;
+			recorrer = recorrer->sig;
+		}
+		
+		if(encontrado == false)
+		{
+			cout << "\n\t No se encuentra el empleado en la lista." << endl;
+		}
+	}
+	else
+	{
+		cout << "\n\t No hay empleados en la lista." << endl;
+	}
 }
 
 
