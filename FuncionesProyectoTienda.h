@@ -26,18 +26,6 @@ class Nodo
 		
 	public:
 		Nodo();
-		void setProducto(string);
-		void setPrecio (int);
-		void setSig(Nodo *);
-		void setAtras(Nodo *);
-		void setPrimero(Nodo *);
-		void setUltimo(Nodo *);
-		string getProducto();
-		int getPrecio();
-		Nodo *getSig();
-		Nodo *getAtras();
-		Nodo *getPrimero();
-		Nodo *getUltimo();
 		void agregarproductos();
 		void verPreciosProductos();
 		void buscarProducto();
@@ -65,66 +53,6 @@ Nodo :: Nodo()
 	vueltoTotal = 0;
 	productosVendidos = 0;
 	gananciasTot = 0;
-}
-
-void Nodo :: setProducto(string producto_n)
-{
-	producto = producto_n;
-}
-
-void Nodo :: setPrecio(int precio_n)
-{
-	precio = precio_n;
-}
-
-void Nodo :: setSig(Nodo *sig_n)
-{
-	sig = sig_n;
-}
-
-void Nodo :: setAtras(Nodo *atras_n)
-{
-	atras = atras_n;
-}
-
-void Nodo :: setPrimero(Nodo *primero_n)
-{
-	primero = primero_n;
-}
-
-void Nodo :: setUltimo(Nodo *ultimo_n)
-{
-	ultimo = ultimo_n;
-}
-
-string Nodo :: getProducto()
-{
-	return producto;
-}
-
-int Nodo :: getPrecio()
-{
-	return precio;
-}
-
-Nodo* Nodo :: getSig()
-{
-	return sig;
-}
-
-Nodo* Nodo :: getAtras()
-{
-	return atras;
-}
-
-Nodo* Nodo :: getPrimero()
-{
-	return primero;
-}
-
-Nodo* Nodo :: getUltimo()
-{
-	return ultimo;
 }
 
 void Nodo :: setvueltoTotal( float vuelto_total)
