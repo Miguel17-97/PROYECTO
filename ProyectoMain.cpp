@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 					break;
 
 			case 3: system("cls");
-					cout << "\n\t Mostrando productos";
+					cout << "\n\t Buscando productos";
 					for(i=0; i<5; i++)
 					{
 						sleep(1);
@@ -137,7 +137,7 @@ int main(int argc, char** argv)
 						cout << ".";
 					}
 					producto->realizarInventario();
-					cout << "\n";
+					cout << "\n\t";
 					system("pause");
 					break;
 					 
