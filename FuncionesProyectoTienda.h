@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <locale.h>
 using namespace std;
 
 class Nodo
@@ -19,16 +20,37 @@ class Nodo
 		Nodo *atras;
 		Nodo *primero;
 		Nodo *ultimo;
+		float vueltoTotal;
+		int productosVendidos;
+		float gananciasTot;
 		
 	public:
 		Nodo();
-
+		void setProducto(string);
+		void setPrecio (int);
+		void setSig(Nodo *);
+		void setAtras(Nodo *);
+		void setPrimero(Nodo *);
+		void setUltimo(Nodo *);
+		string getProducto();
+		int getPrecio();
+		Nodo *getSig();
+		Nodo *getAtras();
+		Nodo *getPrimero();
+		Nodo *getUltimo();
 		void agregarproductos();
 		void verPreciosProductos();
 		void buscarProducto();
 		void actualizarPrecio();
 		void eliminarProducto();
-	
+		void realizarVenta();
+		void realizarInventario();
+		void setvueltoTotal(float);
+		void setproductosVendidos(int);
+		void setgananciasTot(float);
+		float getvueltoTotal();
+		int getproductosVendidos();
+		float getgananciasTot();
 };
 
 
@@ -40,6 +62,99 @@ Nodo :: Nodo()
 	atras = NULL;
 	primero = NULL;
 	ultimo = NULL;
+	vueltoTotal = 0;
+	productosVendidos = 0;
+	gananciasTot = 0;
+}
+
+void Nodo :: setProducto(string producto_n)
+{
+	producto = producto_n;
+}
+
+void Nodo :: setPrecio(int precio_n)
+{
+	precio = precio_n;
+}
+
+void Nodo :: setSig(Nodo *sig_n)
+{
+	sig = sig_n;
+}
+
+void Nodo :: setAtras(Nodo *atras_n)
+{
+	atras = atras_n;
+}
+
+void Nodo :: setPrimero(Nodo *primero_n)
+{
+	primero = primero_n;
+}
+
+void Nodo :: setUltimo(Nodo *ultimo_n)
+{
+	ultimo = ultimo_n;
+}
+
+string Nodo :: getProducto()
+{
+	return producto;
+}
+
+int Nodo :: getPrecio()
+{
+	return precio;
+}
+
+Nodo* Nodo :: getSig()
+{
+	return sig;
+}
+
+Nodo* Nodo :: getAtras()
+{
+	return atras;
+}
+
+Nodo* Nodo :: getPrimero()
+{
+	return primero;
+}
+
+Nodo* Nodo :: getUltimo()
+{
+	return ultimo;
+}
+
+void Nodo :: setvueltoTotal( float vuelto_total)
+{
+	vueltoTotal = vuelto_total;
+}
+
+void Nodo :: setproductosVendidos(int productos_vendidos)
+{
+	productosVendidos = productos_vendidos;
+}
+
+void Nodo :: setgananciasTot(float ganancias_tot)
+{
+	gananciasTot = ganancias_tot;
+}
+
+float Nodo :: getvueltoTotal()
+{
+	return vueltoTotal;
+}
+
+int Nodo :: getproductosVendidos()
+{
+	return productosVendidos;
+}
+
+float Nodo :: getgananciasTot()
+{
+	return gananciasTot;
 }
 
 void Nodo :: agregarproductos()
@@ -237,58 +352,76 @@ void Nodo :: eliminarProducto()
 		cout << "\n\t No hay productos en la tienda."<<endl;
 	}
 }
-/*
-int reavent(string produc[100], int num, float precio[100])
-{
-	short i, ven;
-	float total;
-	string opc;
-	bool control = true;
 
-	for(i=0; i<num; i++)
+void Nodo :: realizarVenta()
+{
+	Nodo *recorrer = new Nodo ();
+	recorrer = primero;
+	bool encontrado = false;
+	string producto_vent;
+	float billete, vuelto;
+	int i;
+	
+	cout << "\n\tBienvenido, ingrese el producto a comprar: ";
+	cin >> producto_vent;
+	
+	if (primero != NULL)
 	{
-		cout <<"\t" << "(" << i+1 << ")" << produc[i] << endl;
+		do
+		{
+			if (recorrer->producto == producto_vent)
+			{
+				fflush(stdin);
+				cout << "\n\t Ha seleccionado el producto " << producto_vent << " que vale " << recorrer->precio<<"$";
+				fflush(stdin);
+				encontrado = true;
+				cout << "\n\t Por favor, ingrese la denominacion de su billete: ";
+				cin >> billete; 
+				if(billete < recorrer->precio)
+				{
+					cout << "\n\t¡Hey! no te alcanza, vuelva pronto ";
+				}
+				else
+				{
+					vuelto = billete - recorrer->precio;
+					cout << "\n\t Su devuelta es de " << vuelto << ", vuelva pronto!";
+					vueltoTotal = vueltoTotal + vuelto;
+					setvueltoTotal(vueltoTotal);
+					productosVendidos = productosVendidos + 1;
+					setproductosVendidos(productosVendidos);
+					gananciasTot = gananciasTot + recorrer->precio;
+					setgananciasTot(gananciasTot);
+				}
+			}
+			recorrer = recorrer->sig;
+			
+		}while (recorrer != primero && encontrado != true);
+		
+		if (!encontrado)
+		{
+			cout << "\n\t No hay existencias en el momento, vuelva pronto" << endl;
+		}
 	}
-	total = 0;
-	while(control==true)
+	else
 	{
-		cout << "\tSeleccione el producto a vender: "; cin >> ven;
-		total = total + precio[i-1];
-		cout << "\tOtro producto por vender? (si/no): "; cin >> opc;
-		if(opc=="si")
-		{
-			control = true;
-		}
-		else
-		{
-			control = false;
-		}
+		cout << "\n\t No tenemos surtido por el momento en la tienda."<<endl;
 	}
 	
-	system("cls");
-	cout << "\a";
-	cout << "\tEl total a pagar es de: " << total;
 }
 
-bool realinv(string produc[100], float precio[100], int num)
+void Nodo :: realizarInventario()
 {
-	short i;
-	cout << "\tRealizando inventario, espere un momento";
-	for(i=0; i<5; i++)
-	{
-		cout << ".";
-		sleep(1);
-	}
-	system("cls");
-	
-	for(i=0; i<num; i++)
-	{
-		cout << "(" << i+1 << ")" << produc[i] << " con precio de: " << precio[i] << endl;
-		sleep(1);
-	}
-	return true;
+	cout << "\n\t El vuelto dado hoy fue de: ";
+	getvueltoTotal();
+	cout << vueltoTotal;
+	cout << "\n\t El numero de productos vendidos fue de: ";
+	getproductosVendidos();
+	cout << productosVendidos;
+	cout << "\n\t Las ganancias totales han sido de: ";
+	getgananciasTot();
+	cout << gananciasTot;
+	//aca finalizan las funciones
 }
 
-*/
 
 
